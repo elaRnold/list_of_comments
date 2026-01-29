@@ -48,6 +48,8 @@ export function CommentItem({ comment, onRetry, onRemove }: CommentItemProps) {
 
       <p className={styles.content}>{comment.content}</p>
 
+      <span className={styles.timestampMobile}>{formattedDate} · {relativeTime}</span>
+
       {isError && (
         <div className={styles.errorActions}>
           <button

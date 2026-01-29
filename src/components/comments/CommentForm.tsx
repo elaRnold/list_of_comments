@@ -62,6 +62,7 @@ export function CommentForm({ onSubmit, formState, errors }: CommentFormProps) {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           placeholder="Ingresa tu nombre"
+          maxLength={50}
           disabled={isSubmitting}
           aria-invalid={!!authorError}
           aria-describedby={authorError ? 'author-error' : undefined}
