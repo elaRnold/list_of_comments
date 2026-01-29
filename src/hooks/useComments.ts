@@ -1,9 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { Comment, CommentInput, FormState, FormError, UseCommentsReturn } from '@/types/comment';
 import { createPersistence } from '@/lib/persistence';
 import { validateCommentInput } from '@/lib/validation/commentSchema';
+
+// Generate cache key from comments to detect changes
+const generateCacheKey = (comments: Comment[]): string => {
+  return comments.map((c) => `${c.id}:${c.createdAt.getTime()}`).join('|');
+};
+
+const POLLING_INTERVAL = 20000; // 20 seconds
 
 export function useComments(): UseCommentsReturn {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -11,23 +18,49 @@ export function useComments(): UseCommentsReturn {
   const [errors, setErrors] = useState<FormError[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load comments on mount
-  useEffect(() => {
-    const loadComments = async () => {
-      try {
-        const persistence = createPersistence();
-        const loadedComments = await persistence.getAll();
+  // Cache refs to avoid unnecessary re-renders
+  const cacheKeyRef = useRef<string>('');
+
+  // Fetch comments with cache comparison
+  const fetchComments = useCallback(async (isPolling = false) => {
+    try {
+      const persistence = createPersistence();
+      const loadedComments = await persistence.getAll();
+
+      // Generate cache key from new data
+      const newCacheKey = generateCacheKey(loadedComments);
+
+      // Only update state if data has changed
+      if (newCacheKey !== cacheKeyRef.current) {
+        cacheKeyRef.current = newCacheKey;
         setComments(loadedComments);
-      } catch (error) {
+      }
+    } catch (error) {
+      // Only show errors on initial load, not during polling
+      if (!isPolling) {
         console.error('Failed to load comments:', error);
         setErrors([{ field: 'general', message: 'Error al cargar comentarios' }]);
-      } finally {
+      }
+    } finally {
+      if (!isPolling) {
         setIsLoading(false);
       }
-    };
-
-    loadComments();
+    }
   }, []);
+
+  // Load comments on mount and setup polling
+  useEffect(() => {
+    // Initial load
+    fetchComments(false);
+
+    // Polling every 20 seconds
+    const intervalId = setInterval(() => {
+      fetchComments(true);
+    }, POLLING_INTERVAL);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, [fetchComments]);
 
   // Add comment with optimistic UI
   const addComment = useCallback(async (input: CommentInput) => {
@@ -58,7 +91,12 @@ export function useComments(): UseCommentsReturn {
     };
 
     // Add to state immediately (optimistic)
-    setComments((prev) => [optimisticComment, ...prev]);
+    setComments((prev) => {
+      const newComments = [optimisticComment, ...prev];
+      // Update cache key to prevent polling from overwriting optimistic update
+      cacheKeyRef.current = generateCacheKey(newComments);
+      return newComments;
+    });
 
     try {
       const persistence = createPersistence();

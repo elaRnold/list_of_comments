@@ -1,7 +1,12 @@
+'use client';
+
+import { useState } from 'react';
 import type { Comment } from '@/types/comment';
 import { CommentItem } from './CommentItem';
 import { EmptyState } from './EmptyState';
 import styles from './CommentList.module.css';
+
+const COMMENTS_PER_PAGE = 5;
 
 interface CommentListProps {
   comments: Comment[];
@@ -11,6 +16,14 @@ interface CommentListProps {
 }
 
 export function CommentList({ comments, isLoading, onRetry, onRemove }: CommentListProps) {
+  const [visibleCount, setVisibleCount] = useState(COMMENTS_PER_PAGE);
+
+  const visibleComments = comments.slice(0, visibleCount);
+  const hasMoreComments = comments.length > visibleCount;
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + COMMENTS_PER_PAGE);
+  };
   if (isLoading) {
     return (
       <div className={styles.container}>
@@ -38,7 +51,7 @@ export function CommentList({ comments, isLoading, onRetry, onRemove }: CommentL
         <span className={styles.count}>{comments.length} comentario{comments.length !== 1 ? 's' : ''}</span>
       </div>
       <div className={styles.list}>
-        {comments.map((comment) => (
+        {visibleComments.map((comment) => (
           <CommentItem
             key={comment.id}
             comment={comment}
@@ -47,6 +60,14 @@ export function CommentList({ comments, isLoading, onRetry, onRemove }: CommentL
           />
         ))}
       </div>
+
+      {hasMoreComments && (
+        <div className={styles.footer}>
+          <button className={styles.loadMoreButton} onClick={handleLoadMore}>
+            Cargar más comentarios
+          </button>
+        </div>
+      )}
     </div>
   );
 }

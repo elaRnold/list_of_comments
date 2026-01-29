@@ -23,7 +23,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: var(--space-sm);
   gap: var(--space-sm);
 }
@@ -53,6 +53,7 @@
   font-weight: 600;
   font-size: 0.9375rem;
   color: var(--cronoss-gray-900);
+  word-break: break-word;
 }
 
 .timestamp {
@@ -61,11 +62,30 @@
   margin-left: var(--space-xs);
 }
 
+.timestampMobile {
+  display: none;
+  font-size: 0.75rem;
+  color: var(--cronoss-gray-400);
+  text-align: right;
+  margin-top: var(--space-sm);
+}
+
+/* Responsive: screens smaller than md (768px) */
+@media (max-width: 767px) {
+  .timestamp {
+    display: none;
+  }
+
+  .timestampMobile {
+    display: block;
+  }
+}
+
 .content {
   color: var(--cronoss-gray-700);
   font-size: 0.9375rem;
   line-height: 1.6;
-  margin: 0 0 0 calc(36px + var(--space-sm));
+  margin: 0;
   white-space: pre-wrap;
   word-break: break-word;
 }
