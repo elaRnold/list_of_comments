@@ -12,6 +12,11 @@ interface CommentItemProps {
 
 export function CommentItem({ comment, onRetry, onRemove }: CommentItemProps) {
   const relativeTime = useRelativeTime(comment.createdAt);
+  const formattedDate = comment.createdAt.toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 
   const isPending = comment.status === 'pending';
   const isError = comment.status === 'error';
@@ -38,7 +43,7 @@ export function CommentItem({ comment, onRetry, onRemove }: CommentItemProps) {
             </span>
           )}
         </div>
-        <span className={styles.timestamp}>{relativeTime}</span>
+        <span className={styles.timestamp}>{formattedDate} · {relativeTime}</span>
       </div>
 
       <p className={styles.content}>{comment.content}</p>

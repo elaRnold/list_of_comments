@@ -1,11 +1,15 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
 import { useComments } from '@/hooks/useComments';
 import { CommentForm } from './CommentForm';
 import { CommentList } from './CommentList';
+import { Toast } from '../ui/Toast';
 import styles from './CommentsSection.module.css';
 
 export function CommentsSection() {
+  const [showToast, setShowToast] = useState(false);
+
   const {
     comments,
     formState,
@@ -15,6 +19,17 @@ export function CommentsSection() {
     removeFailedComment,
     isLoading,
   } = useComments();
+
+  // Show toast when comment is successfully submitted
+  useEffect(() => {
+    if (formState === 'success') {
+      setShowToast(true);
+    }
+  }, [formState]);
+
+  const handleCloseToast = useCallback(() => {
+    setShowToast(false);
+  }, []);
 
   return (
     <section className={styles.container}>
@@ -34,6 +49,12 @@ export function CommentsSection() {
         isLoading={isLoading}
         onRetry={retryComment}
         onRemove={removeFailedComment}
+      />
+
+      <Toast
+        message="Comentario publicado correctamente"
+        isVisible={showToast}
+        onClose={handleCloseToast}
       />
     </section>
   );
