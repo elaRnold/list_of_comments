@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import type { CommentInput, FormState, FormError } from '@/types/comment';
 import styles from './CommentForm.module.css';
 
@@ -20,41 +20,21 @@ export function CommentForm({ onSubmit, formState, errors }: CommentFormProps) {
   const contentError = errors.find((e) => e.field === 'content')?.message;
   const generalError = errors.find((e) => e.field === 'general')?.message;
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      await onSubmit({ author, content });
-
-      // Clear form on success
-      if (formState !== 'error') {
-        setAuthor('');
-        setContent('');
-      }
-    },
-    [author, content, onSubmit, formState]
-  );
-
-  // Clear form when formState becomes success
-  const handleSubmitAndClear = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const currentAuthor = author;
-    const currentContent = content;
-
-    // Clear form immediately for better UX
-    setAuthor('');
-    setContent('');
-
-    try {
-      await onSubmit({ author: currentAuthor, content: currentContent });
-    } catch {
-      // Restore values on error
-      setAuthor(currentAuthor);
-      setContent(currentContent);
+  // Clear form only when submission is successful
+  useEffect(() => {
+    if (formState === 'success') {
+      setAuthor('');
+      setContent('');
     }
+  }, [formState]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await onSubmit({ author, content });
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmitAndClear}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <h3 className={styles.formTitle}>
         <svg
           width="20"
@@ -102,12 +82,14 @@ export function CommentForm({ onSubmit, formState, errors }: CommentFormProps) {
           className={`${styles.textarea} ${contentError ? styles.inputError : ''}`}
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Comparte tus pensamientos sobre esta lección..."
+          placeholder="Comparte tus pensamientos sobre este módulo..."
           rows={4}
+          maxLength={300}
           disabled={isSubmitting}
           aria-invalid={!!contentError}
           aria-describedby={contentError ? 'content-error' : undefined}
         />
+        <span className={styles.charCounter}>{content.length}/300</span>
         {contentError && (
           <p id="content-error" className={styles.errorText}>
             {contentError}

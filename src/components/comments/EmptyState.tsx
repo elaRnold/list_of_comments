@@ -19,7 +19,7 @@ export function EmptyState() {
       </div>
       <h3 className={styles.title}>No hay comentarios aún</h3>
       <p className={styles.description}>
-        Sé el primero en compartir tus pensamientos sobre esta lección.
+        Sé el primero en compartir tus pensamientos sobre este módulo.
       </p>
     </div>
   );

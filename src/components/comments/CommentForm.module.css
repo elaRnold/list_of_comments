@@ -82,6 +82,14 @@
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
+.charCounter {
+  display: block;
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--cronoss-gray-400);
+  margin-top: var(--space-xs);
+}
+
 .errorText {
   color: var(--cronoss-error);
   font-size: 0.8125rem;
