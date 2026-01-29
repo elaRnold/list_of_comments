@@ -91,6 +91,8 @@ src/
 - **Contador de caracteres**: Límite de 300 caracteres con indicador visual.
 - **Tiempo relativo + fecha**: Muestra "28 ene 2026 · hace 5 minutos" para contexto completo.
 - **Preservación de datos en error**: Si la validación falla, el contenido del formulario no se borra.
+- **Polling con caché**: Fetch automático cada 20 segundos para mantener los comentarios actualizados. Usa una clave de caché generada desde IDs y timestamps para detectar cambios y solo actualiza el estado si hay datos nuevos (evita re-renders innecesarios). Los errores durante el polling se silencian para no interrumpir la experiencia.
+- **Botón "Cargar más"**: Muestra 5 comentarios inicialmente y carga 5 más con cada click. Evita renderizar listas largas de golpe.
 
 ### Estilos
 
@@ -110,12 +112,14 @@ src/
 - [x] Reintentar/Descartar comentarios fallidos
 - [x] Toast de confirmación
 - [x] Límite de caracteres con contador
+- [x] Polling automático cada 20 segundos con caché inteligente
+- [x] Botón "Cargar más" para paginación local
 
 ## Mejoras Futuras
 
 Con más tiempo, agregaría:
 
-- **Paginación/Infinite scroll**: Para manejar muchos comentarios
+- **Paginación del servidor**: Actualmente la paginación es local; con muchos comentarios convendría paginar desde el backend
 - **Respuestas anidadas**: Threads de conversación
 - **Likes/Reacciones**: Interacción adicional con los comentarios
 - **Autenticación**: Integrar con sistema de usuarios de Cronoss
