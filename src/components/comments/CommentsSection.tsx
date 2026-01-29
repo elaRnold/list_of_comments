@@ -20,7 +20,7 @@ export function CommentsSection() {
     <section className={styles.container}>
       <header className={styles.header}>
         <h2 className={styles.title}>Discusión del módulo</h2>
-        <p className={styles.subtitle}>Dominio de Sistemas Lineales Complejos</p>
+        <p className={styles.subtitle}>Dominio de Next.js</p>
       </header>
 
       <CommentForm
