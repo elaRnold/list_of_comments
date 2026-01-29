@@ -88,7 +88,7 @@ src/
 ### UX
 
 - **Toast de confirmación**: Notificación flotante cuando el comentario se publica correctamente.
-- **Contador de caracteres**: Límite de 300 caracteres con indicador visual.
+- **Límite de caracteres en inputs**: Nombre limitado a 50 caracteres y contenido a 300 caracteres con contador visual.
 - **Tiempo relativo + fecha**: Muestra "28 ene 2026 · hace 5 minutos" para contexto completo.
 - **Preservación de datos en error**: Si la validación falla, el contenido del formulario no se borra.
 - **Polling con caché**: Fetch automático cada 20 segundos para mantener los comentarios actualizados. Usa una clave de caché generada desde IDs y timestamps para detectar cambios y solo actualiza el estado si hay datos nuevos (evita re-renders innecesarios). Los errores durante el polling se silencian para no interrumpir la experiencia.
