@@ -5,6 +5,11 @@
   /* Cronoss Brand Colors */
   --cronoss-primary: #4F46E5;
   --cronoss-primary-hover: #4338CA;
+  --cronoss-blue: #3B82F6;
+  --cronoss-blue-hover: #2563EB;
+  --cronoss-blue-light: #DBEAFE;
+  --cronoss-accent: #00E5CC;
+  --cronoss-dark: #1a1f36;
   --cronoss-secondary: #10B981;
   --cronoss-warning: #F59E0B;
   --cronoss-error: #EF4444;

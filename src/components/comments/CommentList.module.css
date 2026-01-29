@@ -1,46 +1,85 @@
 .container {
-  background: white;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--cronoss-gray-200);
-  overflow: hidden;
+  margin-top: var(--space-md);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md);
-  border-bottom: 1px solid var(--cronoss-gray-200);
-  background: var(--cronoss-gray-50);
+  margin-bottom: var(--space-md);
 }
 
 .title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--cronoss-gray-900);
   margin: 0;
 }
 
-.count {
-  font-size: 0.875rem;
-  color: var(--cronoss-gray-500);
+.sortContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.75rem;
+  color: var(--cronoss-gray-400);
+}
+
+.sortLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.sortValue {
+  color: var(--cronoss-gray-700);
+  font-weight: 500;
 }
 
 .list {
-  max-height: 500px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.loadMoreButton {
+  background: white;
+  border: 1px solid var(--cronoss-gray-300);
+  color: var(--cronoss-gray-700);
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.loadMoreButton:hover {
+  border-color: var(--cronoss-gray-400);
+  background: var(--cronoss-gray-50);
+}
+
+.count {
+  font-size: 0.75rem;
+  color: var(--cronoss-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 /* Loading skeleton */
 .loading {
-  padding: var(--space-md);
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 }
 
 .skeleton {
-  height: 80px;
+  height: 100px;
   background: linear-gradient(
     90deg,
     var(--cronoss-gray-100) 25%,
@@ -49,7 +88,7 @@
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
 }
 
 @keyframes shimmer {
