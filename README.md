@@ -2,6 +2,14 @@
 
 Prototipo funcional de una sección de comentarios para la plataforma educativa Cronoss.
 
+## Preview
+
+### Web
+![Preview Web](public/img/Preview_web.png)
+
+### Móvil
+![Preview Móvil](public/img/Preview_mobil.png)
+
 ## Instalación
 
 ```bash
@@ -35,7 +43,7 @@ create table comments (
 );
 ```
 
-3. Configurar las variables de entorno en `.env.local`:
+3. Configurar las variables de entorno en un archivo `.env`:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=tu-url
