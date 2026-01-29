@@ -122,6 +122,7 @@ src/
 - [x] Límite de caracteres con contador
 - [x] Polling automático cada 20 segundos con caché inteligente
 - [x] Botón "Cargar más" para paginación local
+- [x] Tests unitarios del schema de validación (Vitest)
 
 ## Mejoras Futuras
 
@@ -132,6 +133,14 @@ Con más tiempo, agregaría:
 - **Likes/Reacciones**: Interacción adicional con los comentarios
 - **Autenticación**: Integrar con sistema de usuarios de Cronoss
 
+## Testing
+
+El proyecto usa **Vitest** para testing. Los tests cubren el schema de validación de comentarios (campos requeridos, límites de caracteres, etc.).
+
+```bash
+npm test         # Ejecutar tests
+```
+
 ## Scripts
 
 ```bash
@@ -139,4 +148,5 @@ npm run dev      # Servidor de desarrollo
 npm run build    # Build de producción
 npm run start    # Servidor de producción
 npm run lint     # Ejecutar ESLint
+npm test         # Ejecutar tests
 ```
